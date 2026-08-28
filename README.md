@@ -64,6 +64,10 @@ Sonraki çalıştırmalarda klasördeki **`start.bat`** dosyasına çift tıklay
 
 Platform otomatik olarak başlayacak ve tarayıcınızda **`http://127.0.0.1:8000`** adresinde açılacaktır.
 
+### Railway ile yayınlama
+
+Repository Railway'e bağlandığında kökteki `Dockerfile` ve `railway.toml` otomatik kullanılır. Kalıcı kullanıcı ve başvuru verileri için servise `/app/server/data` mount path'iyle bir Railway Volume ekleyin. Production ortamında `COOKIE_SECURE=true`, güçlü bir `JWT_SECRET` ve yayınlanan alan adını içeren `CORS_ALLOW_ORIGINS` değişkenlerini tanımlayın.
+
 ---
 
 ## 📂 Proje Dizin Yapısı
