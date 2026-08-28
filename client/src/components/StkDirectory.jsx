@@ -10,13 +10,16 @@ import {
   LayoutGrid,
   List,
   X,
-  MessageSquare
+  MessageSquare,
+  Globe,
+  ExternalLink
 } from 'lucide-react';
 import { fetchStks, fetchCategories, fetchCities } from '../services/api';
 import {
   getOrganizationIcon,
   getOrganizationTypeLabel,
-  getRegistryInfo
+  getRegistryInfo,
+  getSafeWebsiteUrl
 } from '../utils/presentation';
 
 export default function StkDirectory({
@@ -362,6 +365,20 @@ export default function StkDirectory({
                   <span className="font-mono">{getRegistryInfo(stk).value}</span>
                   <span className="mx-1.5" aria-hidden="true">·</span>{getRegistryInfo(stk).source}
                 </div>
+
+                {getSafeWebsiteUrl(stk.web_site) && (
+                  <a
+                    href={getSafeWebsiteUrl(stk.web_site)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex max-w-full items-center gap-1.5 text-xs font-semibold text-brand-700 hover:underline"
+                    title={stk.web_site}
+                  >
+                    <Globe className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">{stk.web_site}</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
+                )}
               </div>
 
               {/* Action Buttons */}
@@ -403,13 +420,26 @@ export default function StkDirectory({
                   {stk.is_verified && <ShieldCheck className="w-3.5 h-3.5 text-brand-700" aria-label="Doğrulanmış kurum" />}
                 </div>
                 <h3 className="font-bold text-navy-950 text-base">{stk.kurum_adi}</h3>
-                <div className="flex items-center space-x-4 text-xs text-navy-500 mt-1">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-navy-500 mt-1">
                   <span className="flex items-center space-x-1">
                     <MapPin className="w-3.5 h-3.5 text-brand-600" />
                     <span>{stk.ilce ? `${stk.ilce}, ` : ''}{stk.il || 'Belirtilmemiş'}</span>
                   </span>
                   <span>{getRegistryInfo(stk).shortLabel}: {getRegistryInfo(stk).value}</span>
                   <span className="hidden md:inline">Kaynak: {getRegistryInfo(stk).source}</span>
+                  {getSafeWebsiteUrl(stk.web_site) && (
+                    <a
+                      href={getSafeWebsiteUrl(stk.web_site)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex max-w-full items-center gap-1 text-brand-700 hover:underline"
+                      title={stk.web_site}
+                    >
+                      <Globe className="w-3.5 h-3.5 shrink-0" />
+                      <span className="max-w-72 truncate">{stk.web_site}</span>
+                      <ExternalLink className="w-3 h-3 shrink-0" />
+                    </a>
+                  )}
                 </div>
               </div>
 

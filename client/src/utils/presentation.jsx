@@ -116,6 +116,17 @@ export function getRegistryInfo(stk) {
   };
 }
 
+export function getSafeWebsiteUrl(value) {
+  if (!value) return null;
+
+  try {
+    const url = new URL(String(value));
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
 export function getOrganizationDistribution(stats) {
   const rawDistribution = stats?.organizationTypeDistribution || [];
   const distribution = Array.isArray(rawDistribution)
