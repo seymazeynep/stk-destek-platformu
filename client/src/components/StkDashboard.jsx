@@ -90,18 +90,18 @@ export default function StkDashboard({
 
     try {
       if (authMode === 'login') {
-        const res = await loginStk(email, password);
+        const res = await loginStk(email.trim(), password);
         localStorage.setItem('stk_user', JSON.stringify(res.user));
         onLoginSuccess(res.user);
         loadDashboardData();
       } else {
         const res = await registerStk({
-          email,
-          password,
-          contact_name: contactName,
-          phone: contactPhone,
-          kutuk_no: kutukNo,
-          kurum_adi: kurumAdi
+          email: email.trim(),
+          password: password,
+          contact_name: contactName.trim(),
+          phone: contactPhone || '',
+          kutuk_no: kutukNo || null,
+          kurum_adi: kurumAdi.trim() || null
         });
         localStorage.setItem('stk_user', JSON.stringify(res.user));
         onLoginSuccess(res.user);

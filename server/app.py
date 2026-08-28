@@ -227,7 +227,7 @@ class ContactRequestModel(StrictModel):
 
 class RegisterModel(StrictModel):
     email: EmailStr
-    password: str = Field(min_length=8, max_length=256)
+    password: str = Field(min_length=6, max_length=256)
     contact_name: str = Field(min_length=2, max_length=120)
     phone: Optional[str] = Field(default="", max_length=30)
     # Retained for frontend compatibility, but never trusted for ownership.

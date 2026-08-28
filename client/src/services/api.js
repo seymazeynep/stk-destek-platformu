@@ -72,6 +72,23 @@ export async function fetchStkDetail(id) {
   return res.json();
 }
 
+function formatErrorMessage(data, fallback = 'İşlem gerçekleştirilemedi.') {
+  if (!data) return fallback;
+  if (typeof data.detail === 'string') return data.detail;
+  if (typeof data.error === 'string') return data.error;
+  if (Array.isArray(data.detail)) {
+    return data.detail.map(err => {
+      const field = err.loc ? err.loc[err.loc.length - 1] : '';
+      if (field === 'password') return 'Şifre en az 6 karakter olmalıdır.';
+      if (field === 'email') return 'Lütfen geçerli bir e-posta adresi giriniz.';
+      if (field === 'contact_name') return 'Lütfen yetkili adınızı giriniz.';
+      return err.msg || 'Geçersiz veri girişi.';
+    }).join(' ');
+  }
+  if (typeof data.message === 'string') return data.message;
+  return fallback;
+}
+
 export async function submitContactRequest(payload) {
   const res = await apiFetch('/contact', {
     method: 'POST',
@@ -79,7 +96,7 @@ export async function submitContactRequest(payload) {
     body: JSON.stringify(payload)
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Mesaj gönderilemedi');
+  if (!res.ok) throw new Error(formatErrorMessage(data, 'Mesaj gönderilemedi'));
   return data;
 }
 
@@ -90,7 +107,7 @@ export async function loginStk(email, password) {
     body: JSON.stringify({ email, password })
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.detail || data.error || 'Giriş yapılamadı');
+  if (!res.ok) throw new Error(formatErrorMessage(data, 'Giriş yapılamadı'));
   return data;
 }
 
@@ -101,7 +118,7 @@ export async function registerStk(payload) {
     body: JSON.stringify(payload)
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.detail || data.error || 'Kayıt yapılamadı');
+  if (!res.ok) throw new Error(formatErrorMessage(data, 'Kayıt yapılamadı'));
   return data;
 }
 
@@ -113,7 +130,7 @@ export async function logoutStk() {
 export async function fetchDashboard() {
   const res = await apiFetch('/stk/dashboard');
   const data = await res.json();
-  if (!res.ok) throw new Error(data.detail || 'Yönetim paneli yüklenemedi');
+  if (!res.ok) throw new Error(formatErrorMessage(data, 'Yönetim paneli yüklenemedi'));
   return data;
 }
 
@@ -124,7 +141,7 @@ export async function updateStkProfile(payload) {
     body: JSON.stringify(payload)
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.detail || 'Profil güncellenemedi');
+  if (!res.ok) throw new Error(formatErrorMessage(data, 'Profil güncellenemedi'));
   return data;
 }
 
@@ -135,7 +152,7 @@ export async function addStkActivity(payload) {
     body: JSON.stringify(payload)
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.detail || 'Faaliyet eklenemedi');
+  if (!res.ok) throw new Error(formatErrorMessage(data, 'Faaliyet eklenemedi'));
   return data;
 }
 
@@ -146,6 +163,6 @@ export async function updateRequestStatus(reqId, status, adminNotes) {
     body: JSON.stringify({ status, admin_notes: adminNotes })
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.detail || 'Talep güncellenemedi');
+  if (!res.ok) throw new Error(formatErrorMessage(data, 'Talep güncellenemedi'));
   return data;
 }
