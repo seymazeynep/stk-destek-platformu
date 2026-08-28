@@ -1,6 +1,4 @@
-const API_BASE_URL = typeof window !== 'undefined' && window.location.port === '8000'
-  ? `${window.location.origin}/api`
-  : 'http://127.0.0.1:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 async function apiFetch(path, options = {}) {
   const res = await fetch(`${API_BASE_URL}${path}`, {

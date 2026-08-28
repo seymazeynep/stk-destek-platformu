@@ -89,10 +89,10 @@ async def security_headers(request: Request, call_next):
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; "
         "script-src 'self'; "
-        "style-src 'self' https://fonts.googleapis.com; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
         "font-src 'self' https://fonts.gstatic.com; "
-        "img-src 'self' data:; "
-        "connect-src 'self' http://127.0.0.1:8000 http://localhost:8000; "
+        "img-src 'self' data: https:; "
+        "connect-src 'self' https: http:; "
         "frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
     )
     return response
