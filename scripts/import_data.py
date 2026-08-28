@@ -510,27 +510,6 @@ INSERT INTO support_topics (title, category_group, icon, description, target_gro
 VALUES (?, ?, ?, ?, ?, ?)
 """, wizard_topics)
 
-# Sample STK admin user and showcase STK activities
-print("Adding sample verified demo showcase STKs with rich profiles...")
-cursor.execute("""
-UPDATE stks SET
-    is_verified = 1,
-    telefon = '0 (212) 444 00 00',
-    email = 'iletisim@stkplatformu.org.tr',
-    aciklama = 'Toplumsal fayda, insan hakları ve sürdürülebilir dayanışma için Türkiye genelinde aktif çalışmalar yürüten öncü sivil toplum kuruluşu.'
-WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-""")
-
-# Insert sample activities for verified STKs
-cursor.executescript("""
-INSERT INTO stk_activities (stk_id, title, category, content, event_date)
-VALUES
-(1, '2026-2027 Öğrenim Dönemi Üniversite Burs Başvuruları Başladı', 'Burs & Eğitim', 'Tüm Türkiye genelinde maddi desteğe ihtiyaç duyan başarılı 500 lisans ve önlisans öğrencisine aylık karşılıksız burs desteği sağlanacaktır.', '2026-09-01'),
-(1, 'Kışlık Yakacak ve Erzak Dağıtımı Kampanyası', 'İnsani Yardım', 'Doğu Anadolu ve Güneydoğu illerimizdeki 1.200 haneye kömür, soba ve temel erzak kolisi ulaştırılmıştır.', '2026-08-15'),
-(2, 'Afet Farkındalık ve Temel İlk Yardım Semineri', 'Eğitim & Afet', 'Vatandaşlarımızın deprem ve doğal afetlere hazırlıklı olması için Kadıköy merkezimizde ücretsiz 2 günlük sertifikalı ilk yardım eğitimi düzenlenmektedir.', '2026-09-10'),
-(3, 'Sokak Hayvanları İçin Mobil Kısırlaştırma ve Tedavi Tırı', 'Hayvan Hakları', 'Kırsal bölgelerde sahipsiz kedi ve köpeklerin aşılanması, kısırlaştırılması ve mikroçip takılması amacıyla mobil veteriner aracımız göreve başladı.', '2026-08-20');
-""")
-
 conn.commit()
 
 if os.path.exists(args.vgm_json):
