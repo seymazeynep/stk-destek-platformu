@@ -1,0 +1,13 @@
+# Runtime secrets
+server/data/.jwt_secret
+server/data/*.db
+server/data/*.db-shm
+server/data/*.db-wal
+
+# Generated/runtime files
+**/__pycache__/
+.pytest_cache/
+client/dist/
+client/node_modules/
+server/node_modules/
+*.pyc

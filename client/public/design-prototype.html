@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="STK Rehberi için alternatif giriş sayfası tasarım prototipi" />
+  <title>STK Rehberi — Alternatif Tasarım</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --mist: #b9b6c0;
+      --stone: #b2a799;
+      --clay: #ca8c58;
+      --umber: #562b1d;
+      --slate: #627281;
+      --paper: #e5dfd5;
+      --ink: #271f1a;
+      --line: rgba(86, 43, 29, .22);
+      --white: #f8f5ef;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 3px solid var(--clay); outline-offset: 4px; }
+
+    .shell { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: square; stroke-linejoin: miter; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 30;
+      background: rgba(229, 223, 213, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+    .nav-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; color: var(--white); background: var(--umber); }
+    .brand small { display: block; color: var(--slate); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 28px; font-size: 13px; font-weight: 600; }
+    .nav-links a { border-bottom: 1px solid transparent; padding-block: 6px; }
+    .nav-links a:hover { border-color: var(--umber); }
+    .nav-action { display: inline-flex; align-items: center; gap: 9px; padding: 12px 16px; color: var(--white); background: var(--umber); border: 1px solid var(--umber); }
+
+    .hero { border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(310px, .8fr); min-height: 690px; }
+    .hero-copy { padding: 92px 70px 76px 0; border-right: 1px solid var(--line); }
+    .hero-copy .eyebrow { color: var(--umber); display: flex; align-items: center; gap: 10px; }
+    .hero-copy .eyebrow::before { content: ""; width: 34px; height: 2px; background: var(--clay); }
+    h1, h2, .serif { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+    h1 { max-width: 780px; margin: 28px 0 24px; font-size: clamp(58px, 7vw, 104px); line-height: .88; letter-spacing: -.045em; }
+    h1 em { color: var(--umber); }
+    .lead { max-width: 610px; color: #544a42; font-size: 17px; line-height: 1.7; }
+    .search {
+      display: grid; grid-template-columns: 1fr auto; max-width: 670px; margin-top: 42px;
+      background: var(--white); border: 1px solid var(--umber); box-shadow: 8px 8px 0 var(--stone);
+    }
+    .search label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+    .search input { min-width: 0; padding: 19px 20px; color: var(--ink); background: transparent; border: 0; outline: 0; }
+    .search button { display: flex; align-items: center; gap: 10px; padding: 0 22px; color: var(--white); background: var(--umber); border: 0; cursor: pointer; }
+    .quick-links { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 25px; }
+    .quick-links button { padding: 9px 12px; color: var(--umber); background: transparent; border: 1px solid var(--line); cursor: pointer; }
+    .quick-links button:hover { color: var(--white); background: var(--umber); }
+
+    .hero-panel { display: grid; grid-template-rows: 1fr auto; background: var(--mist); }
+    .hero-figure { position: relative; min-height: 460px; padding: 48px; overflow: hidden; }
+    .figure-arch { position: absolute; inset: 58px 54px 0; border: 1px solid rgba(248,245,239,.8); border-bottom: 0; border-radius: 180px 180px 0 0; }
+    .figure-lines { position: absolute; inset: auto 0 0; height: 62%; opacity: .33; background: repeating-linear-gradient(90deg, transparent 0 39px, var(--umber) 40px); }
+    .figure-symbol { position: absolute; inset: 0; display: grid; place-items: center; color: var(--umber); }
+    .figure-symbol svg { width: 148px; height: 148px; stroke-width: .8; }
+    .figure-note { position: absolute; right: 28px; top: 30px; writing-mode: vertical-rl; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); color: var(--white); background: var(--umber); }
+    .stat { padding: 23px 16px; border-right: 1px solid rgba(248,245,239,.25); }
+    .stat:last-child { border: 0; }
+    .stat strong { display: block; font-family: "Instrument Serif", serif; font-size: 29px; font-weight: 400; }
+    .stat span { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; opacity: .72; }
+
+    .ticker { overflow: hidden; border-bottom: 1px solid var(--line); background: var(--clay); }
+    .ticker-track { width: max-content; display: flex; gap: 44px; padding: 14px 0; animation: ticker 24s linear infinite; }
+    .ticker span { display: flex; align-items: center; gap: 44px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+    .ticker span::after { content: "◆"; color: var(--umber); font-size: 8px; }
+
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 88px 0 34px; }
+    .section-head h2 { max-width: 700px; margin: 8px 0 0; font-size: clamp(44px, 5vw, 70px); line-height: .98; }
+    .section-head p { max-width: 380px; margin: 0; color: #5b5149; line-height: 1.6; font-size: 14px; }
+
+    .rail-wrap { position: relative; }
+    .rail {
+      display: grid; grid-auto-flow: column; grid-auto-columns: minmax(300px, 29vw); gap: 16px;
+      overflow-x: auto; padding: 4px max(24px, calc((100vw - var(--max)) / 2)) 40px;
+      scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--umber) transparent;
+    }
+    .rail-card {
+      min-height: 360px; display: flex; flex-direction: column; justify-content: space-between;
+      padding: 28px; border: 1px solid var(--line); background: var(--white); scroll-snap-align: start;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .rail-card:nth-child(3n+2) { background: var(--stone); }
+    .rail-card:nth-child(3n+3) { color: var(--white); background: var(--slate); }
+    .rail-card:hover { transform: translateY(-6px); }
+    .card-index { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+    .card-icon { width: 54px; height: 54px; display: grid; place-items: center; border: 1px solid currentColor; }
+    .rail-card h3 { margin: 20px 0 8px; font-family: "Instrument Serif", serif; font-size: 35px; font-weight: 400; line-height: 1; }
+    .rail-card p { margin: 0; font-size: 13px; line-height: 1.6; opacity: .76; }
+    .rail-card a { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 16px; border-top: 1px solid currentColor; font-size: 12px; font-weight: 700; }
+    .rail-hint { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+
+    .path { margin-top: 80px; color: var(--white); background: var(--umber); border-block: 1px solid var(--umber); }
+    .path-grid { display: grid; grid-template-columns: .75fr 1.25fr; }
+    .path-intro { padding: 74px 68px 74px 0; border-right: 1px solid rgba(248,245,239,.25); }
+    .path-intro h2 { margin: 15px 0 22px; font-size: clamp(46px, 5vw, 72px); line-height: .95; }
+    .path-intro p { color: var(--mist); line-height: 1.7; }
+    .path-steps { counter-reset: steps; }
+    .step { counter-increment: steps; display: grid; grid-template-columns: 74px 1fr auto; align-items: center; gap: 22px; min-height: 148px; padding: 24px 0 24px 48px; border-bottom: 1px solid rgba(248,245,239,.25); }
+    .step:last-child { border: 0; }
+    .step::before { content: "0" counter(steps); color: var(--clay); font-family: "Instrument Serif", serif; font-size: 40px; }
+    .step h3 { margin: 0 0 7px; font-size: 17px; }
+    .step p { margin: 0; color: var(--mist); font-size: 13px; }
+    .step .icon { margin-right: 8px; color: var(--clay); }
+
+    .closing { padding: 90px 0; }
+    .closing-box { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 40px; padding: 54px; background: var(--clay); border: 1px solid var(--umber); box-shadow: 12px 12px 0 var(--umber); }
+    .closing h2 { margin: 0; font-size: clamp(42px, 5vw, 68px); line-height: .95; }
+    .closing p { margin: 14px 0 0; max-width: 620px; }
+    .closing a { display: inline-flex; align-items: center; gap: 10px; padding: 16px 20px; color: var(--white); background: var(--umber); white-space: nowrap; }
+
+    footer { padding: 28px 0; color: var(--white); background: var(--slate); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 24px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+
+    @keyframes ticker { to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+    @media (max-width: 900px) {
+      .shell { width: min(100% - 30px, var(--max)); }
+      .nav-links a { display: none; }
+      .hero-grid, .path-grid { grid-template-columns: 1fr; }
+      .hero-copy { padding: 68px 0; border-right: 0; }
+      .hero-panel { border-top: 1px solid var(--line); }
+      .hero-figure { min-height: 390px; }
+      .path-intro { padding: 64px 0; border-right: 0; border-bottom: 1px solid rgba(248,245,239,.25); }
+      .step { padding-left: 0; }
+      .rail { grid-auto-columns: minmax(290px, 72vw); }
+    }
+    @media (max-width: 620px) {
+      .nav-inner { min-height: 66px; }
+      .nav-action span { display: none; }
+      h1 { font-size: 58px; }
+      .search { grid-template-columns: 1fr; box-shadow: 6px 6px 0 var(--stone); }
+      .search button { justify-content: center; min-height: 52px; }
+      .section-head { align-items: start; flex-direction: column; padding-top: 68px; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid rgba(248,245,239,.25); }
+      .figure-arch { inset-inline: 30px; }
+      .path-intro { padding-inline: 0; }
+      .step { grid-template-columns: 52px 1fr; min-height: 130px; }
+      .step > .icon { display: none; }
+      .closing-box { grid-template-columns: 1fr; padding: 34px; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 </body>4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/><path d="M8 12h8M12 8v8"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M14 6l6 6-6 6"/></symbol>
+    <symbol id="i-school" viewBox="0 0 24 24"><path d="m3 10 9-6 9 6-9 6-9-6Z"/><path d="M7 13v5c3 2 7 2 10 0v-5M21 10v6"/></symbol>
+    <symbol id="i-aid" viewBox="0 0 24 24"><path d="M4 13h4l2-3 4 6 2-3h4"/><path d="M12 21C7 18 3 15 3 9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-4 9-9 12Z"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M5 6h14M5 6l-3 7h6L5 6ZM19 6l-3 7h6l-3-7ZM7 21h10"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4 9 4 16c0 3 2 4 4 4 7 0 12-6 12-16Z"/><path d="M4 20c3-5 7-8 12-11"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V8l8-4 8 4v13M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/></symbol>
+  </svg>
+
+  <nav class="nav" aria-label="Ana navigasyon">
+    <div class="shell nav-inner">
+      <a class="brand" href="#top" aria-label="STK Rehberi ana sayfa">
+        <span class="brand-mark"><svg class="icon"><use href="#i-heart"/></svg></span>
+        <span></span>STK Rehberi<small>Der</small>nekler · Vakıflar</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#kesfet">Keşfet</a><a href="#rehber">Nasıl çalışır?</a><a href="#veri">Veri kaynakları</a>
+        <a class="nav-action" href="#kesfet"><svg class="icon"><use href="#i-search"/></svg><span></span>Kuruluş bul</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Türkiye'nin sivil toplum dizini</div>
+          <h1>İyiliğe giden yolu <em>birlikte</em> bulalım.</h1>
+          <p</h1></em> class="lead">109.152 dernek ve vakıf arasından ihtiyacınıza, şehrinize ve destek alanına uygun kuruluşları bulun. Resmî kaynaklardan derlenen tek bir sade rehber.</p>
+          <form class="search" onsubmit="event.preventDefault(); document.querySelector('#kesfet').scrollIntoView()">
+            <label for="query">Kuruluş veya destek konusu</label>
+            <input id="query" type="search" placeholder="Örn. Ankara eğitim bursu" />
+            <button type="submit"><svg class="icon"><use href="#i-search"/></svg> Aramaya başla</button>
+          </form>
+          <div class="quick-links" aria-label="Hızlı aramalar">
+            <button type="button">Burs desteği</button><button type="button">Gıda yardımı</button><button type="button">Afet desteği</button><button type="button">Hayvan hakları</button>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Platform özeti">
+          <div class="hero-figure">
+            <div class="figure-arch"></div><div class="figure-lines"></div>
+            <div class="figure-symbol"><svg class="icon"><use href="#i-building"/></svg></div>
+            <div class="figure-note">Bilgi · Erişim · Dayanışma</div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong></strong>102.301</strong><span>Dernek</span></div>
+            <div class="stat"><</span>strong>6.851</strong><span></span>Vakıf</span></div>
+            <div class="stat"><strong></strong>81</strong><span></span>İl</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div class="ticker-track">
+      <span></span>Resmî kaynaklar</span><span>109</span>.152 kuruluş</span><span>81</span> ilde erişim</span><span></span>Akıllı destek rehberi</span><span>Dernek ve vakıflar</span></span>
+      <span></span>Resmî kaynaklar</span><span></span>109.152 kuruluş</span><span>81 ilde</span> erişim</span><span>Akıll</span>ı destek rehberi</span><span>Dernek ve vakıflar</span</span>>
+    </div></div>
+
+    <section id="kesfet" aria-labelledby="discover-title">
+      <div class="shell section-head">
+        <div><div class="eyebrow">İhtiyacına göre keşfet</div><h2 id="discover-title">Doğru desteğe açılan alanlar</h2></div>
+        <div><p></p>Yatay kaydırarak destek alanlarını keşfedin. Her başlık, ilgili dernek ve vakıfları tek bir sonuç akışında toplar.</p><div class="rail-hint" style="margin-top:16px">Kaydır <svg class="icon"><use href="#i-arrow"/></svg></div></div>
+      </div>
+      <div class="rail" tabindex="0" aria-label="Destek alanları; yatay kaydırılabilir">
+        <article class="rail-card"><div class="card-index"><span></span>01</span><span>15</span>.381 kuruluş</span></div><div><div class="card-icon"><svg class="icon"><use href="#i-school"/></svg></div><h3>Eğitim ve burs</h3><p></p>Öğrenciler için burs, yurt, materyal ve akademik destek sunan kuruluşlar.</p></div><a href="#">Kuruluşları gör <svg class="icon"><use href="#i-arrow"/></svg></a></article>
+        <article class="rail-card"><div class="card-index"><span>02</span></span><span></span>8.466 kuruluş</span></div><div><div class="card-icon"><svg class="icon"><use href="#i-aid"/></svg></div><h3>Tem</h3>el ihtiyaç</h3><p></p>Gıda, barınma, giysi ve sosyal destek alanlarında çalışan kuruluşlar.</p></div><a href="#">Kuruluşları gör <svg class="icon"><use href="#i-arrow"/></svg></a></article>
+        <article class="rail-card"><div class="card-index"><span>03</span><span>3.194 kuruluş</</span></span>span></div><div><div class="card-icon"><svg class="icon"><use href="#i-scale"/></svg></div><h3>Hak ve adalet</h3><p>Hukuki destek, insan hakları ve savunuc</h3></p>uluk faaliyetleri yürüten kurumlar.</p></div><a href="#">Kuruluşları gör <svg class="icon"><use href="#i-arrow"/></svg></a></article>
+        <article class="rail-card"><div class="card-index"><span>04</span></span><span>4</span>.028 kuruluş</span></div><div><div class="card-icon"><svg class="icon"><use href="#i-leaf"/></svg></div><h3></h3>Doğa ve yaşam</h3><p>Ç</p>evre, iklim, doğal yaşam ve hayvan hakları alanında çalışan kuruluşlar.</p></div><a href="#">Kuruluşları gör <svg class="icon"><use href="#i-arrow"/></svg></a></article>
+        <article class="rail-card"><div class="card-index"><span>05</span</span>><span>2</span>.660 kuruluş</span></div><div><div class="card-icon"><svg class="icon"><use href="#i-heart"/></svg></div><h3>Sağ</h3>lık desteği</h3><p>Tedavi, medikal ihtiyaç ve hasta dayanışması için çalışan kuruluşlar.</p></div><a href="#">Kuruluşları gör <svg class="icon"><use href="#i-arrow"/></svg></a></article>
+      </div>
+    </section>
+
+    <section id="rehber" class="path">
+      <div class="shell path-grid">
+        <div class="path-intro"><div class="eyebrow">Akıllı destek rehberi</div><h2></h2>Üç adımda doğru kuruluşa ulaşın.</h2><p>Karmaşık filtreler yerine ihtiyacınızı anlatın. Rehber, uygun kuruluşları bulunduğunuz şehir ve iletişim seçeneklerine göre sıralasın.</p></div>
+        <div class="path-steps">
+          <div class="step"><div><h3>İ</h3>htiyaç alanını seçin</h3><p>Eğitim, sağlık, gıda, hukuk veya diğer destek başlıkları.</p></div><svg class="icon"><use href="#i-search"/></svg></div>
+          <div class="step"><div><h3></h3>Konumunuzu belirtin</h3><p></p>81 il içinden şehrinizi seçin veya Türkiye genelinde arayın.</p></div><svg class="icon"><use href="#i-building"/></svg></div>
+          <div class="step"><div><h3></h3>Kuruluşla iletişime geçin</h3><p>Telefon</p>, e-posta ve kayıtlı iletişim kanallarını tek yerde görün.</p></div><svg class="icon"><use href="#i-arrow"/></svg></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="veri" class="closing"><div class="shell closing-box"><div><div class="eyebrow">Açık ve güvenilir kapsam</div><h2>Der</h2>nekler ve vakıflar, aynı rehberde.</h2><p></p>DERBİS ve Vakıflar Genel Müdürlüğü kaynaklarından derlenen kayıtlar, kurum türü ve veri kaynağı açıkça belirtilerek sunulur.</p></div><a href="#top">Dizini keşfet <svg class="icon"><use href="#i-arrow"/></svg></a></div></section>
+  </main>
+
+  <footer><div class="shell footer-inner"><span></span>STK Rehberi · Tasarım prototipi</span><span>#b9b6c0 · #b2a799 · #ca8c58 · #562b1d · #627281</span></div></footer>
+</body>
+</html>
