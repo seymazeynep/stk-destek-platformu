@@ -12,6 +12,7 @@ import {
   X,
   MessageSquare,
   Globe,
+  Phone,
   ExternalLink
 } from 'lucide-react';
 import { fetchStks, fetchCategories, fetchCities } from '../services/api';
@@ -366,19 +367,32 @@ export default function StkDirectory({
                   <span className="mx-1.5" aria-hidden="true">·</span>{getRegistryInfo(stk).source}
                 </div>
 
-                {getSafeWebsiteUrl(stk.web_site) && (
-                  <a
-                    href={getSafeWebsiteUrl(stk.web_site)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-flex max-w-full items-center gap-1.5 text-xs font-semibold text-brand-700 hover:underline"
-                    title={stk.web_site}
-                  >
-                    <Globe className="w-3.5 h-3.5 shrink-0" />
-                    <span className="truncate">{stk.web_site}</span>
-                    <ExternalLink className="w-3 h-3 shrink-0" />
-                  </a>
-                )}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3">
+                  {stk.telefon && (
+                    <a
+                      href={`tel:${stk.telefon}`}
+                      className="inline-flex max-w-full items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md hover:bg-emerald-100 transition-colors"
+                      title={`Telefon: ${stk.telefon}`}
+                    >
+                      <Phone className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                      <span className="truncate">{stk.telefon}</span>
+                    </a>
+                  )}
+
+                  {getSafeWebsiteUrl(stk.web_site) && (
+                    <a
+                      href={getSafeWebsiteUrl(stk.web_site)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex max-w-full items-center gap-1.5 text-xs font-semibold text-brand-700 hover:underline"
+                      title={stk.web_site}
+                    >
+                      <Globe className="w-3.5 h-3.5 shrink-0" />
+                      <span className="truncate">{stk.web_site}</span>
+                      <ExternalLink className="w-3 h-3 shrink-0" />
+                    </a>
+                  )}
+                </div>
               </div>
 
               {/* Action Buttons */}
@@ -427,6 +441,16 @@ export default function StkDirectory({
                   </span>
                   <span>{getRegistryInfo(stk).shortLabel}: {getRegistryInfo(stk).value}</span>
                   <span className="hidden md:inline">Kaynak: {getRegistryInfo(stk).source}</span>
+                  {stk.telefon && (
+                    <a
+                      href={`tel:${stk.telefon}`}
+                      className="inline-flex max-w-full items-center gap-1 text-emerald-800 font-semibold hover:underline"
+                      title={`Telefon: ${stk.telefon}`}
+                    >
+                      <Phone className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                      <span>{stk.telefon}</span>
+                    </a>
+                  )}
                   {getSafeWebsiteUrl(stk.web_site) && (
                     <a
                       href={getSafeWebsiteUrl(stk.web_site)}
